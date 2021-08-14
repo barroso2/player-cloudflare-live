@@ -87,7 +87,8 @@
      if(event.data === 1) { // Started playing
  
             document.querySelector(".container-video-youtube").style.pointerEvents = "none";
- 
+            document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
+            document.querySelector('.container-video-youtube').style.height = getWindowSize().height + "px";
  
            if(checkIfMobileOrWebview()===true){
              document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
