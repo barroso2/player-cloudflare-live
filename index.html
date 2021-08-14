@@ -23,153 +23,155 @@
     
     
   
+	  
     <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com -->
     <script>
-       //api do youtube
-var tag = document.createElement('script');
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-
-
-
-
-//função que verifica se é mobile ou webview
-function checkIfMobileOrWebview(){
-    var userAgent = navigator.userAgent;
-    var isMobile = userAgent.match(/Android/i) || userAgent.match(/webOS/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPad/i) || userAgent.match(/iPod/i) || userAgent.match(/BlackBerry/i) || userAgent.match(/Windows Phone/i);
-    if (isMobile) {
-        //console.log("Mobile");
-        return true;        
-    } else {
-        //console.log("Desktop");
-        return false;        
-    }
-}
-
-
-
-//Código customizado para monitorar a porcentagem do vídeo e disparar um evento
-var player, timer, timeSpent = [];
-
-function onYouTubeIframeAPIReady() {
-	player = new YT.Player( 'player', {
-		events: { 'onStateChange': onPlayerStateChange }
-	});
-}
-
-//function to get height and width of the window;
-function getWindowSize(){
-    var w = window,
-        d = document,
-        e = d.documentElement,
-        g = d.getElementsByTagName('body')[0],
-        x = w.innerWidth || e.clientWidth || g.clientWidth,
-        y = w.innerHeight|| e.clientHeight|| g.clientHeight;
-    return { width: x, height: y };
-}
-
-
-//função para dar play no vídeo
-function customPlayVideo(){
-    document.querySelector("div.container-video-youtube.shown").onclick = function(){
-        player.playVideo();
-    }
-}
-
-
-function onPlayerStateChange(event) {
-	if(event.data === 1) { // Started playing
-
-        document.querySelector(".container-video-youtube").style.pointerEvents = "none";
-
-
-      	if(checkIfMobileOrWebview()===true){
-            document.querySelector('.container-video-youtube').style.width = "100%";
-            document.querySelector('.container-video-youtube').style.height = "232px";
-        }
-        if(document.querySelector(".shown")){            
-            document.querySelector(".container-video-youtube").classList.remove("shown");
-        }
-
-        document.querySelector("div.container-video-youtube").onclick = function(){
-            player.pauseVideo();
-        }
-               
-        if(!timeSpent.length){
-            for(var i=0, l=parseInt(player.getDuration()); i<l; i++) timeSpent.push(false);
-        }
-	    timer = setInterval(record,100);
-    } else {        
-		clearInterval(timer);
-        if(checkIfMobileOrWebview()===true){
-            document.querySelector('.container-video-youtube').style.width = "100%";
-            document.querySelector('.container-video-youtube').style.height = "232px";
-        } else {
-            document.querySelector('.container-video-youtube').style.width = "854px";
-            document.querySelector('.container-video-youtube').style.height = "480px";
-        }
-        document.querySelector(".container-video-youtube").classList.add("shown");
-        customPlayVideo();
-	}
+        //api do youtube
+ var tag = document.createElement('script');
+ tag.src = "https://www.youtube.com/iframe_api";
+ var firstScriptTag = document.getElementsByTagName('script')[0];
+ firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+ 
+ 
+ 
+ 
+ 
+ //função que verifica se é mobile ou webview
+ function checkIfMobileOrWebview(){
+     var userAgent = navigator.userAgent;
+     var isMobile = userAgent.match(/Android/i) || userAgent.match(/webOS/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPad/i) || userAgent.match(/iPod/i) || userAgent.match(/BlackBerry/i) || userAgent.match(/Windows Phone/i);
+     if (isMobile) {
+         //console.log("Mobile");
+         return true;        
+     } else {
+         //console.log("Desktop");
+         return false;        
+     }
+ }
+ 
+ 
+ 
+ //Código customizado para monitorar a porcentagem do vídeo e disparar um evento
+ var player, timer, timeSpent = [];
+ 
+ function onYouTubeIframeAPIReady() {
+     player = new YT.Player( 'player', {
+         events: { 'onStateChange': onPlayerStateChange }
+     });
+ }
+ 
+ //function to get height and width of the window;
+ function getWindowSize(){
+     var w = window,
+         d = document,
+         e = d.documentElement,
+         g = d.getElementsByTagName('body')[0],
+         x = w.innerWidth || e.clientWidth || g.clientWidth,
+         y = w.innerHeight|| e.clientHeight|| g.clientHeight;
+     return { width: x, height: y };
+ }
+ 
+ 
+ //função para dar play no vídeo
+ function customPlayVideo(){
+     document.querySelector("div.container-video-youtube.shown").onclick = function(){
+         player.playVideo();
+     }
+ }
+ 
+ 
+ function onPlayerStateChange(event) {
+     if(event.data === 1) { // Started playing
+ 
+         document.querySelector(".container-video-youtube").style.pointerEvents = "none";
+ 
+ 
+           if(checkIfMobileOrWebview()===true){
+             document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
+             document.querySelector('.container-video-youtube').style.height = getWindowSize().height + "px";
+         }
+         if(document.querySelector(".shown")){            
+             document.querySelector(".container-video-youtube").classList.remove("shown");
+         }
+ 
+         document.querySelector("div.container-video-youtube").onclick = function(){
+             player.pauseVideo();
+         }
+                
+         if(!timeSpent.length){
+             for(var i=0, l=parseInt(player.getDuration()); i<l; i++) timeSpent.push(false);
+         }
+         timer = setInterval(record,100);
+     } else {        
+         clearInterval(timer);
+         if(checkIfMobileOrWebview()===true){
+             document.querySelector('.container-video-youtube').style.width = "100%";
+             document.querySelector('.container-video-youtube').style.height = "232px";
+         } else {
+             document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
+             document.querySelector('.container-video-youtube').style.height = getWindowSize().height + "px";
+         }
+         document.querySelector(".container-video-youtube").classList.add("shown");
+         customPlayVideo();
+     }
+   
+     if (event.data === YT.PlayerState.ENDED) {        
+         document.querySelector(".container-video-youtube").classList.add("shown");
+         customPlayVideo();        
+     }
+ }
+ 
+ function record(){
+     timeSpent[ parseInt(player.getCurrentTime()) ] = true
+ }
+ 
+ 
+     </script>
+ 
+ 
+ <style>
+      .container-video-youtube {
+             width: 854px;
+             position: relative;
+             background: rgba(0, 0, 0, 0.212);
+             margin: 0 auto;
+             padding: 0;
+             max-width: 100%;
+             height: 480px;            
+         }
+         .container-video-youtube.shown::after {
+             content:"";            
+             position: absolute;
+             top: 0;
+             left: 0;
+             bottom: 0;
+             right: 0;
+             cursor: pointer;
+             background-color: black;
+             background-repeat: no-repeat;
+             background-position: center; 
+             background-size: 110px 110px;
+             background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgaWQ9InN2Z18xIiBkPSJtNDA1LjIsMjMyLjlsLTI3OC40LC0xNjUuN2MtMy40LC0yIC02LjksLTMuMiAtMTAuOSwtMy4yYy0xMC45LDAgLTE5LjgsOSAtMTkuOCwyMGwtMC4xLDBsMCwzNDRsMC4xLDBjMCwxMSA4LjksMjAgMTkuOCwyMGM0LjEsMCA3LjUsLTEuNCAxMS4yLC0zLjRsMjc4LjEsLTE2NS41YzYuNiwtNS41IDEwLjgsLTEzLjggMTAuOCwtMjMuMWMwLC05LjMgLTQuMiwtMTcuNSAtMTAuOCwtMjMuMXoiLz4KIDwvZz4KPC9zdmc+);
+     }
+ 
+     a.ytp-watermark.yt-uix-sessionlink {
+         display: none !important;
+     }
+ </style>
+     <div class="container-video-youtube">
+         <iframe 
+             id="player" 
+             width="100%" 
+             height="100%" 
+             src="https://www.youtube-nocookie.com/embed/kizRPeYwfF8/?controls=0&autohide=2&wmode=opaque&showsearch=0&showinfo=0&iv_load_policy=3&rel=0&playsinline=0&modestbranding=1&autoplay=1&enablejsapi=1" 
+             title="YouTube video player"
+             frameborder="0"
+             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+         >
+         </iframe>
+     </div>
+     <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com -->
   
-    if (event.data === YT.PlayerState.ENDED) {        
-        document.querySelector(".container-video-youtube").classList.add("shown");
-        customPlayVideo();        
-    }
-}
-
-function record(){
-	timeSpent[ parseInt(player.getCurrentTime()) ] = true
-}
-
-
-    </script>
-
-
-<style>
-     .container-video-youtube {
-            width: 854px;
-            position: relative;
-            background: rgba(0, 0, 0, 0.212);
-            margin: 0 auto;
-            padding: 0;
-            max-width: 100%;
-            height: 480px;            
-        }
-        .container-video-youtube.shown::after {
-            content:"";            
-            position: absolute;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
-            cursor: pointer;
-            background-color: black;
-            background-repeat: no-repeat;
-            background-position: center; 
-            background-size: 110px 110px;
-            background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCiA8Zz4KICA8dGl0bGU+YmFja2dyb3VuZDwvdGl0bGU+CiAgPHJlY3QgZmlsbD0ibm9uZSIgaWQ9ImNhbnZhc19iYWNrZ3JvdW5kIiBoZWlnaHQ9IjQwMiIgd2lkdGg9IjU4MiIgeT0iLTEiIHg9Ii0xIi8+CiA8L2c+CiA8Zz4KICA8dGl0bGU+TGF5ZXIgMTwvdGl0bGU+CiAgPHBhdGggZmlsbD0iI2ZmZmZmZiIgaWQ9InN2Z18xIiBkPSJtNDA1LjIsMjMyLjlsLTI3OC40LC0xNjUuN2MtMy40LC0yIC02LjksLTMuMiAtMTAuOSwtMy4yYy0xMC45LDAgLTE5LjgsOSAtMTkuOCwyMGwtMC4xLDBsMCwzNDRsMC4xLDBjMCwxMSA4LjksMjAgMTkuOCwyMGM0LjEsMCA3LjUsLTEuNCAxMS4yLC0zLjRsMjc4LjEsLTE2NS41YzYuNiwtNS41IDEwLjgsLTEzLjggMTAuOCwtMjMuMWMwLC05LjMgLTQuMiwtMTcuNSAtMTAuOCwtMjMuMXoiLz4KIDwvZz4KPC9zdmc+);
-    }
-
-    a.ytp-watermark.yt-uix-sessionlink {
-        display: none !important;
-    }
-</style>
-    <div class="container-video-youtube">
-        <iframe 
-            id="player" 
-            width="100%" 
-            height="100%" 
-            src="https://www.youtube-nocookie.com/embed/kizRPeYwfF8/?controls=0&autohide=2&wmode=opaque&showsearch=0&showinfo=0&iv_load_policy=3&rel=0&playsinline=0&modestbranding=1&autoplay=1&enablejsapi=1" 
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
-        >
-        </iframe>
-    </div>
-    <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com --> 
   
 	  
 	  
