@@ -86,7 +86,7 @@
  function onPlayerStateChange(event) {
      if(event.data === 1) { // Started playing
  
-         document.querySelector(".container-video-youtube").style.pointerEvents = "none";
+            document.querySelector(".container-video-youtube").style.pointerEvents = "none";
  
  
            if(checkIfMobileOrWebview()===true){
@@ -108,8 +108,8 @@
      } else {        
          clearInterval(timer);
          if(checkIfMobileOrWebview()===true){
-             document.querySelector('.container-video-youtube').style.width = "100%";
-             document.querySelector('.container-video-youtube').style.height = "232px";
+             document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
+             document.querySelector('.container-video-youtube').style.height = getWindowSize().height + "px";
          } else {
              document.querySelector('.container-video-youtube').style.width = getWindowSize().width + "px";
              document.querySelector('.container-video-youtube').style.height = getWindowSize().height + "px";
@@ -163,7 +163,7 @@
  </style>
 	  
 	  
-<img src="logo-1.png" style="display: block; margin: 1% auto;"/>	  
+<a href="/"><img src="logo-1.png" style="display: block; margin: 1% auto;"/></a>  
      <div class="container-video-youtube">
          <iframe 
              id="player" 
