@@ -22,14 +22,14 @@
     
     
     
-   
+  
     <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com -->
     <script>
        //api do youtube
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+var tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
 
@@ -82,12 +82,7 @@ function customPlayVideo(){
 function onPlayerStateChange(event) {
 	if(event.data === 1) { // Started playing
 
-
-       
-            
-        document.querySelector(".container-video-youtube").style.pointer = "none";
-          
-        
+        document.querySelector(".container-video-youtube").style.pointerEvents = "none";
 
 
       	if(checkIfMobileOrWebview()===true){
@@ -130,7 +125,6 @@ function record(){
 }
 
 
-
     </script>
 
 
@@ -168,14 +162,15 @@ function record(){
             id="player" 
             width="100%" 
             height="100%" 
-            src="https://www.youtube-nocookie.com/embed/1hv2aNIGYWY/?controls=0&autohide=2&wmode=opaque&showsearch=0&showinfo=0&iv_load_policy=3&rel=0&playsinline=0&modestbranding=1&autoplay=1&enablejsapi=1" 
+            src="https://www.youtube-nocookie.com/embed/kizRPeYwfF8/?controls=0&autohide=2&wmode=opaque&showsearch=0&showinfo=0&iv_load_policy=3&rel=0&playsinline=0&modestbranding=1&autoplay=1&enablejsapi=1" 
             title="YouTube video player"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
         >
         </iframe>
     </div>
-    <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com -->
+    <!-- Otimização do player do Youtube. Autor: barrosofilho.ti@gmail.com --> 
+  
 	  
 	  
     
